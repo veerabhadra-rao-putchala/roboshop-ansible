@@ -11,7 +11,7 @@
       name: nodejs
       state: present
   
-  - name: Creating system user roboshop
+  - name: Create system user Roboshop
     ansible.builtin.user:
       name: roboshop
       system: true
@@ -24,9 +24,9 @@
       path: /app
       state: directory
 
-  - name: Downloading the application
+  - name: Downloading the catalogue application
     ansible.builtin.get_url:
-      url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+      url: "https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip"
       dest: /tmp/catalogue.zip
   
   - name: unzipping the catalogue
