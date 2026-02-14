@@ -60,20 +60,20 @@
     - item.item == "frontend"
     - action == "create"
 
-- name: Delete ec2 instance
-  amazon.aws.ec2_instance:
-    state: absent
-    name: "{{ item }}-{{ env }}"
-  loop: "{{ instances }}"
-  when: action == "destroy"
+  - name: Delete ec2 instance
+    amazon.aws.ec2_instance:
+      state: absent
+      name: "{{ item }}-{{ env }}"
+    loop: "{{ instances }}"
+    when: action == "destroy"
 
-- name: Delete R53 records
-  amazon.aws.route53:
-    state: absent
-    zone: "{{ domain_name }}"
-    record: "{{ item }}-{{ env }}.{{ domain_name }}" # roboshop-dev.pvraolearns.online
-    type: A 
-    ttl: 1
-  loop: "{{ instances }}"
-  when: action == "destroy"
+  - name: Delete R53 records
+    amazon.aws.route53:
+      state: absent
+      zone: "{{ domain_name }}"
+      record: "{{ item }}-{{ env }}.{{ domain_name }}" # roboshop-dev.pvraolearns.online
+      type: A 
+      ttl: 1
+    loop: "{{ instances }}"
+    when: action == "destroy"
 
