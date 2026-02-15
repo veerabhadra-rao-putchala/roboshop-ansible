@@ -3,7 +3,7 @@
   become: yes
 
   tasks:
-  - name: Install Maven and MYSQL
+  - name: install Maven and MYSQL
     ansible.builtin.dnf:
       name: "{{ item }}" 
       state: present
