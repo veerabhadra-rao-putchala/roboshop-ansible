@@ -1,0 +1,85 @@
+- name: Configure shipping server
+  hosts: shipping
+  become: yes
+
+  tasks:
+  - name: Install Maven and MYSQL
+    ansible.builtin.dnf:
+      name: "{{ item }}" 
+      state: present
+    loop:
+    - maven
+    - mysql
+  
+  - name: Create system user Roboshop
+    ansible.builtin.user:
+      name: roboshop
+      system: true
+      home: /app
+      shell: /sbin/nologin
+      comment: "Roboshop system user"
+  
+  - name: Delete app directory
+    ansible.builtin.file:
+      path: /app
+      state: absent
+
+  - name: Create app directory
+    ansible.builtin.file:
+      path: /app
+      state: directory
+
+  - name: Delete Shipping zip file
+    ansible.builtin.file:
+      path: /tmp/shipping.zip
+      state: absent
+
+  - name: Downloading the Shipping application
+    ansible.builtin.get_url:
+      url: "https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip"
+      dest: /tmp/shipping.zip
+  
+  - name: Unarchive the Shipping 
+    ansible.builtin.unarchive:
+      src: /tmp/shipping.zip
+      dest: /app
+      remote_src: yes
+
+  - name: install dependencies
+    ansible.builtin.command: mvn clean package
+    args:
+      chdir: /app
+
+  - name: install dependencies
+    ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar 
+    args:
+      chdir: /app
+
+  - name: Systemctl Shipping service
+    ansible.builtin.template:
+      src: shipping.service
+      dest: /etc/systemd/system/shipping.service
+
+  - name: Daemon reload
+    ansible.builtin.systemd_service: 
+     daemon-reload: true 
+
+  - name: Import shipping data with Mysql db schema loading
+    community.mysql.mysql_db:
+      state: import
+      name: all
+      login_host: "{{ MYSQL_HOST }}"
+      login_user: root
+      login_password: RoboShop@1
+      target: "{{ item }}"
+    loop:
+    - /app/db/schema.sql
+    - /app/db/app-user.sql
+    - /app/db/master-data.sql
+
+  - name: Start and Enable the Shipping service
+    ansible.builtin.service:
+      name: shipping
+      state: restarted
+      enabled: yes
+  
