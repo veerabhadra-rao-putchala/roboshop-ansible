@@ -66,8 +66,11 @@
 
   - name: installing dependencies
     ansibe.builtin.pip:
-      name: PyMSQL
+      name: "{{ item }}"
       executable: pip3.9
+    loop:
+    - cryptography
+    - PyMySQL
   
   - name: Import shipping data with Mysql db schema loading
     community.mysql.mysql_db:
