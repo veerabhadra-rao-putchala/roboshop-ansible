@@ -4,10 +4,9 @@
   hosts: all
   connection: local
   vars: 
-    sg_id: sg-01625f1f03637676f
+    sg_id: sg-01625f1f03637676f  
     ami_id: ami-0220d79f3f480ecf5
     domain_name: pvraolearns.online
-
     env: dev
     action: create 
     instances:
