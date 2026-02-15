@@ -3,7 +3,7 @@
   become: yes
 
   tasks:
-  - name: Install python
+  - name: Installing python
     ansibe.builtin.dnf:
       name: "{{ item }}"
       state: present
