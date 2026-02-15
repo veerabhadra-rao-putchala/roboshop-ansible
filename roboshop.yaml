@@ -1,8 +1,9 @@
 #  ansible-playbook -i inventory.ini -e "instances=['mongodb','catalogue','redis','user','cart','mysql','shipping','rabbitmq','payment','frontend']" roboshop.yaml
 
 - name: Create ec2 and R53 records
-  hosts: all
+  hosts: localhost
   connection: local
+  gather_facts: false
   vars: 
     sg_id: sg-01625f1f03637676f  
     ami_id: ami-0220d79f3f480ecf5
