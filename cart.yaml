@@ -11,8 +11,8 @@
       name: nodejs
       state: present
   
-  - name: Create system cart Roboshop
-    ansible.builtin.cart:
+  - name: Create system user Roboshop
+    ansible.builtin.user:
       name: roboshop
       system: true
       home: /app
@@ -50,7 +50,7 @@
       path: /app
   
   - name: Copy cart service
-    ansible.builtin.copy:
+    ansible.builtin.template:
       src: cart.service
       dest: /etc/systemd/system/cart.service
 
