@@ -64,7 +64,7 @@
     ansible.builtin.systemd_service: 
      daemon-reload: true 
 
-  - name: Install dependencies
+  - name: installing dependencies
     ansibe.builtin.pip:
       name: PyMSQL
       executable: pip3.9
