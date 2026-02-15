@@ -4,10 +4,10 @@
 
   tasks:
   - name: Enable Nginx 1.24
-    ansibe.builtin.command: dnf module enable nginx:1.24
+    ansible.builtin.command: dnf module enable nginx:1.24
   
   - name: install nginx
-    ansibe.builtin.dnf:
+    ansible.builtin.dnf:
       name: nginx
       state: present
   
