@@ -19,10 +19,20 @@
       shell: /sbin/nologin
       comment: "Roboshop system user"
   
+  - name: Delete app directory
+    ansible.builtin.file:
+      path: /app
+      state: absent
+
   - name: Create app directory
     ansible.builtin.file:
       path: /app
       state: directory
+
+  - name: Delete catalogue zip file
+    ansible.builtin.file:
+      path: /tmp/catalogue.zip
+      state: absent
 
   - name: Downloading the catalogue application
     ansible.builtin.get_url:
@@ -71,7 +81,7 @@
       name: catalogue
       state: started
       enabled: yes
-      
+
 
    
   
