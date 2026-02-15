@@ -3,7 +3,7 @@
   hosts: redis
   tasks:
   - name: Enable Redis 7
-    ansible.builtin.command: dnf enable redis:7 -y
+    ansible.builtin.command: dnf module enable redis:7 -y
   
   - name: Install Redis
     ansible.builtin.dnf:
